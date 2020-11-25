@@ -3,15 +3,12 @@ const step = 100;
 const size = 30; 
 
 const margin = {
-   get x() {
-        let ratio = (window.innerWidth - 200)/step;
-        return 100 + (window.innerWidth/ 100 * (ratio - Math.floor(ratio)))
-    },
-    get y() {
-        let ratio = (window.innerHeight - 100)/step;
-        return 50 + (window.innerHeight/ 100 * (ratio - Math.floor(ratio)))
-    }
+    x: 200 + window.innerWidth - Math.floor(window.innerWidth / step) * step,
+    y: 50 + window.innerHeight - Math.floor(window.innerHeight / step) * step
 }
+
+// marginX = windowWidth - int((windowWidth / slotSize)) * slotSize;
+// marginY = windowHeight - int((windowHeight / slotSize)) * slotSize;
 
 console.log(margin.x, margin.y)
 function setup(){
@@ -30,10 +27,21 @@ function draw(){
 function drawing(){
     push();
 
+    /* line(margin.x, 0, margin.x, height)
+    line(width - margin.x, 0, width - margin.x, height)
+    line(0, margin.y, width, margin.y)
+    line(0, height - margin.y, width, height - margin.y) */
+
+    
+
     for (let y = margin.y ; y < height - margin.y ; y += step){
         for (let x = margin.x ; x < width - margin.x ; x += step){
             push();
-                translate(x, y);
+                translate(x + (step/3), y);
+                /* push()
+                fill(255,0,0)
+                ellipse(0,0,30,30)
+                pop() */
                 noFill();
                 stroke(0);
                 strokeWeight(1);
@@ -153,6 +161,12 @@ function keyPressed(){
     if (keyCode == ENTER){
         console.log('cool')
         render();
+    }
+    
+    if (keyCode == SHIFT){
+        console.log('restart')
+        background(255)
+        drawing();
     }
 }
 
